@@ -1,11 +1,14 @@
-import 'package:covid_tracker_final/dimens.dart';
-import 'package:covid_tracker_final/my_colors.dart';
 import 'package:flutter/material.dart';
+
+import '../dimens.dart';
+import '../my_colors.dart';
 
 class CurvedTabBar extends StatelessWidget {
   final List<Widget> tabs;
 
-  CurvedTabBar({@required this.tabs});
+  CurvedTabBar({
+    @required this.tabs,
+  });
 
   @override
   Widget build(BuildContext context) {

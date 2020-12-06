@@ -1,13 +1,14 @@
-import 'package:covid_tracker_final/my_colors.dart';
-import 'package:covid_tracker_final/strings.dart';
 import 'package:flutter/material.dart';
 
-import 'home/home_page.dart';
+import 'ui/home/home_page.dart';
+import 'ui/my_colors.dart';
+import 'ui/strings.dart';
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: Strings.TITLE,
       theme: ThemeData.from(
         colorScheme: ColorScheme.light(

@@ -1,6 +1,6 @@
-import 'package:covid_tracker_final/clear_app_bar.dart';
-import 'package:covid_tracker_final/my_colors.dart';
-import 'package:covid_tracker_final/strings.dart';
+import 'clear_app_bar.dart';
+import 'my_colors.dart';
+import 'strings.dart';
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatelessWidget {

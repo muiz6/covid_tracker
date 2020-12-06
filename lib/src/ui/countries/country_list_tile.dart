@@ -1,7 +1,8 @@
-import 'package:covid_tracker_final/dimens.dart';
-import 'package:covid_tracker_final/my_colors.dart';
-import 'package:covid_tracker_final/strings.dart';
 import 'package:flutter/material.dart';
+
+import '../dimens.dart';
+import '../my_colors.dart';
+import '../strings.dart';
 
 class CountryListTile extends StatelessWidget {
   final List<Color> _colors = [
@@ -11,12 +12,12 @@ class CountryListTile extends StatelessWidget {
   ];
   final String country;
   final Severity severity;
-  final int cases;
+  final String cases;
 
   CountryListTile({
     this.country = '',
     this.severity = Severity.low,
-    this.cases = 0,
+    this.cases = '0',
   });
 
   @override

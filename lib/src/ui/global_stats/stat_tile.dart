@@ -1,4 +1,4 @@
-import 'package:covid_tracker_final/dimens.dart';
+import '../dimens.dart';
 import 'package:flutter/material.dart';
 
 class StatTile extends StatelessWidget {
@@ -30,9 +30,9 @@ class StatTile extends StatelessWidget {
             Text(
               value.toString(),
               style: Theme.of(context).textTheme.headline5.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14),
             ),
           ],
         ),

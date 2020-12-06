@@ -1,10 +1,20 @@
-import 'package:covid_tracker_final/dimens.dart';
-import 'package:covid_tracker_final/global_stats/stat_tile.dart';
-import 'package:covid_tracker_final/my_colors.dart';
-import 'package:covid_tracker_final/strings.dart';
+import '../dimens.dart';
+import '../global_stats/stat_tile.dart';
+import '../my_colors.dart';
+import '../strings.dart';
 import 'package:flutter/material.dart';
 
 class StatContent extends StatelessWidget {
+  StatContent({
+    this.affected = 0,
+    this.deaths = 0,
+    this.recovered = 0,
+  });
+
+  final int affected;
+  final int deaths;
+  final int recovered;
+
   final List<Color> _colors = [
     MyColors.YELLOW,
     MyColors.RED,
@@ -23,6 +33,7 @@ class StatContent extends StatelessWidget {
               Expanded(
                 child: StatTile(
                   title: Strings.AFFECTED,
+                  value: affected,
                   color: _colors[0],
                 ),
               ),
@@ -35,6 +46,7 @@ class StatContent extends StatelessWidget {
               Expanded(
                 child: StatTile(
                   title: Strings.DEATHS,
+                  value: deaths,
                   color: _colors[1],
                 ),
               ),
@@ -52,6 +64,7 @@ class StatContent extends StatelessWidget {
               Expanded(
                 child: StatTile(
                   title: Strings.RECOVERED,
+                  value: recovered,
                   color: _colors[2],
                 ),
               ),
@@ -63,6 +76,7 @@ class StatContent extends StatelessWidget {
               Expanded(
                 child: StatTile(
                   title: Strings.ACTIVE,
+                  value: affected - deaths - recovered,
                   color: _colors[3],
                 ),
               ),
@@ -71,12 +85,12 @@ class StatContent extends StatelessWidget {
                   Dimens.INSET_S,
                 ),
               ),
-              Expanded(
-                child: StatTile(
-                  title: Strings.SERIOUS,
-                  color: _colors[4],
-                ),
-              )
+              // Expanded(
+              //   child: StatTile(
+              //     title: Strings.SERIOUS,
+              //     color: _colors[4],
+              //   ),
+              // )
             ],
           ),
         ),
