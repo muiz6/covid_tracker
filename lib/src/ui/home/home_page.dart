@@ -1,7 +1,7 @@
-import 'package:covid_tracker_final/about_page.dart';
-import 'package:covid_tracker_final/countries/country_page.dart';
-import 'package:covid_tracker_final/global_stats/global_stats_page.dart';
-import 'package:covid_tracker_final/home/blue_tab_bar.dart';
+import '../about_page.dart';
+import '../countries/country_page.dart';
+import '../global_stats/global_stats_page.dart';
+import '../home/blue_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

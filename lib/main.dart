@@ -1,5 +1,5 @@
-import 'package:covid_tracker_final/my_app.dart';
 import 'package:flutter/material.dart';
+import 'src/my_app.dart';
 
 void main() {
   runApp(MyApp());

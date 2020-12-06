@@ -1,5 +1,5 @@
-import 'package:covid_tracker_final/dimens.dart';
-import 'package:covid_tracker_final/my_colors.dart';
+import '../dimens.dart';
+import '../my_colors.dart';
 import 'package:flutter/material.dart';
 
 class BlueTabBar extends StatelessWidget {
