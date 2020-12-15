@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../blocs/covid_bloc.dart';
-import '../../models/date_item_model.dart';
-import '../../models/timeline_item_model.dart';
-import '../clear_app_bar.dart';
-import '../dimens.dart';
-import '../global_stats/curved_tab_bar.dart';
-import '../global_stats/plain_scroll_behavior.dart';
-import '../global_stats/stat_chart.dart';
-import '../global_stats/stat_content.dart';
-import '../strings.dart';
+import 'package:zero_to_hero/src/blocs/covid_bloc.dart';
+import 'package:zero_to_hero/src/models/date_item_model.dart';
+import 'package:zero_to_hero/src/models/timeline_item_model.dart';
+import 'package:zero_to_hero/src/ui/clear_app_bar.dart';
+import 'package:zero_to_hero/src/ui/dimens.dart';
+import 'package:zero_to_hero/src/ui/global_stats/curved_tab_bar.dart';
+import 'package:zero_to_hero/src/ui/global_stats/plain_scroll_behavior.dart';
+import 'package:zero_to_hero/src/ui/global_stats/stat_chart.dart';
+import 'package:zero_to_hero/src/ui/global_stats/stat_content.dart';
+import 'package:zero_to_hero/src/ui/strings.dart';
 import 'plain_scroll_behavior.dart';
 
 class GlobalStatsPage extends StatefulWidget {
@@ -87,8 +87,7 @@ class _StatsPageState extends State<GlobalStatsPage> {
                                         return Text(snapshot.error.toString());
                                       }
                                       bloc.fetchTimeline();
-                                      return Center(
-                                          child: CircularProgressIndicator());
+                                      return progressCircle();
                                     },
                                   ),
                                 ),
@@ -108,8 +107,7 @@ class _StatsPageState extends State<GlobalStatsPage> {
                                         return Text(snapshot.error.toString());
                                       }
                                       bloc.fetchToday();
-                                      return Center(
-                                          child: CircularProgressIndicator());
+                                      return progressCircle();
                                     },
                                   ),
                                 ),
@@ -129,8 +127,7 @@ class _StatsPageState extends State<GlobalStatsPage> {
                                         return Text(snapshot.error.toString());
                                       }
                                       bloc.fetchYesterday();
-                                      return Center(
-                                          child: CircularProgressIndicator());
+                                      return progressCircle();
                                     },
                                   ),
                                 ),
@@ -162,6 +159,16 @@ class _StatsPageState extends State<GlobalStatsPage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget progressCircle() {
+    return Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(
+          Colors.white,
         ),
       ),
     );
