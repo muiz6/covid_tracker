@@ -1,20 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:http/http.dart' show Client;
-
 import 'package:zero_to_hero/src/models/country_item_model.dart';
 import 'package:zero_to_hero/src/models/date_item_model.dart';
 
 class CovidApiProvider {
-  Client client = Client();
-  // final _apiKey = 'your_api_key';
+  static const _API_ROOT = 'https://covid19-api.org/api';
+  final Client client = Client();
 
   Future<CountryItemModel> fetchCountry() async {
-    print("Cou");
-    final response = await client.get("https://covid19-api.org/api/status");
-    // print(response.body.toString());
-    print("/Cou");
+    final response = await client.get('$_API_ROOT/status');
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
       return CountryItemModel.fromJson(json.decode(response.body));
@@ -24,53 +19,39 @@ class CovidApiProvider {
     }
   }
 
-  // Future<TimelineItemModel> fetchTimeline() async {
-  //   print("Time");
-  //   final response = await client.get("https://covid19-api.org/api/timeline");
-  //   // print(response.body.toString());
-  //   print("/Time");
-  //   if (response.statusCode == 200) {
-  //     // If the call to the server was successful, parse the JSON
-  //     return TimelineItemModel.fromJson(json.decode(response.body));
-  //   } else {
-  //     // If that call was not successful, throw an error.
-  //     throw Exception('Failed to load post');
-  //   }
-  // }
+  Future<DateItemModel> fetchToday() async => _fetchSingleDayData();
 
-  Future<DateItemModel> fetchToday() async {
-    DateTime date = DateTime.now();
-    print("Tod");
-    final response = await client.get(
-        "https://covid19-api.org/api/status?date=" +
-            date.toString().substring(0, 10));
-    // print(response.body.toString());
-    print("/Tod");
+  Future<DateItemModel> fetchYesterday() async => _fetchSingleDayData(
+        offset: 1,
+      );
+
+  Future<DateItemModel> fetchTotal() async {
+    // DateTime date = DateTime.now();
+    final response = await client.get('$_API_ROOT/timeline');
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
-      return DateItemModel.fromJson(json.decode(response.body));
-    } else {
-      // If that call was not successful, throw an error.
-      throw Exception('Failed to load post');
+      return DateItemModel.fromJson(json.decode(response.body)[0]);
     }
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load post');
   }
 
-  Future<DateItemModel> fetchYesterday() async {
-    DateTime date = DateTime.now().subtract(Duration(days: 1));
-    print("Yes");
-    final response = await client.get(
-        "https://covid19-api.org/api/status?date=" +
-            date.toString().substring(0, 10));
-    // print(response.body.toString());
-    print("/Yes");
+  Future<DateItemModel> _fetchSingleDayData({int offset = 0}) async {
+    final response = await client.get('$_API_ROOT/timeline');
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
-      return DateItemModel.fromJson(json.decode(response.body));
-    } else {
-      // If that call was not successful, throw an error.
-      throw Exception('Failed to load post');
+      final todayTotal =
+          DateItemModel.fromJson(json.decode(response.body)[offset]);
+      final ystTotal =
+          DateItemModel.fromJson(json.decode(response.body)[offset + 1]);
+      // just single day
+      return DateItemModel(
+        cases: todayTotal.cases - ystTotal.cases,
+        deaths: todayTotal.deaths - ystTotal.deaths,
+        recovered: todayTotal.recovered - ystTotal.recovered,
+      );
     }
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load post');
   }
-
-  Future<DateItemModel> fetchTotal() async {}
 }

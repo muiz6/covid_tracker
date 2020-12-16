@@ -29,8 +29,8 @@ class CovidBloc {
   }
 
   void _fetchTotal() async {
-    // TimelineItemModel timelineItemModel = await _repository.fetchTimeline();
-    // _totalFetcher.sink.add(timelineItemModel);
+    final timelineItemModel = await _repository.fetchTotal();
+    _totalFetcher.sink.add(timelineItemModel);
   }
 
   void _fetchToday() async {
