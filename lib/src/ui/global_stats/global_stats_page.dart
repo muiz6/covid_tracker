@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:zero_to_hero/src/blocs/covid_bloc.dart';
 import 'package:zero_to_hero/src/models/date_item_model.dart';
-import 'package:zero_to_hero/src/models/timeline_item_model.dart';
 import 'package:zero_to_hero/src/ui/clear_app_bar.dart';
 import 'package:zero_to_hero/src/ui/dimens.dart';
 import 'package:zero_to_hero/src/ui/global_stats/curved_tab_bar.dart';
@@ -35,7 +34,6 @@ class _StatsPageState extends State<GlobalStatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    bloc.fetchTimeline();
     return Container(
       color: Theme.of(context).primaryColor,
       child: SafeArea(
@@ -68,70 +66,7 @@ class _StatsPageState extends State<GlobalStatsPage> {
                           child: ScrollConfiguration(
                             behavior: PlainScrollBehavior(),
                             child: TabBarView(
-                              children: [
-                                Padding(
-                                  padding: _paddingTbv,
-                                  child: StreamBuilder(
-                                    stream: bloc.timeline,
-                                    builder: (context,
-                                        AsyncSnapshot<TimelineItemModel>
-                                            snapshot) {
-                                      if (snapshot.hasData) {
-                                        return StatContent(
-                                          affected: snapshot.data.total_cases,
-                                          deaths: snapshot.data.total_deaths,
-                                          recovered:
-                                              snapshot.data.total_recovered,
-                                        );
-                                      } else if (snapshot.hasError) {
-                                        return Text(snapshot.error.toString());
-                                      }
-                                      bloc.fetchTimeline();
-                                      return progressCircle();
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: _paddingTbv,
-                                  child: StreamBuilder(
-                                    stream: bloc.today,
-                                    builder: (context,
-                                        AsyncSnapshot<DateItemModel> snapshot) {
-                                      if (snapshot.hasData) {
-                                        return StatContent(
-                                          affected: snapshot.data.cases,
-                                          deaths: snapshot.data.deaths,
-                                          recovered: snapshot.data.recovered,
-                                        );
-                                      } else if (snapshot.hasError) {
-                                        return Text(snapshot.error.toString());
-                                      }
-                                      bloc.fetchToday();
-                                      return progressCircle();
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: _paddingTbv,
-                                  child: StreamBuilder(
-                                    stream: bloc.yesterday,
-                                    builder: (context,
-                                        AsyncSnapshot<DateItemModel> snapshot) {
-                                      if (snapshot.hasData) {
-                                        return StatContent(
-                                          affected: snapshot.data.cases,
-                                          deaths: snapshot.data.deaths,
-                                          recovered: snapshot.data.recovered,
-                                        );
-                                      } else if (snapshot.hasError) {
-                                        return Text(snapshot.error.toString());
-                                      }
-                                      bloc.fetchYesterday();
-                                      return progressCircle();
-                                    },
-                                  ),
-                                ),
-                              ],
+                              children: _tabContentList(),
                             ),
                           ),
                         ),
@@ -164,12 +99,46 @@ class _StatsPageState extends State<GlobalStatsPage> {
     );
   }
 
-  Widget progressCircle() {
+  Widget _progressCircle() {
     return Center(
       child: CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(
           Colors.white,
         ),
+      ),
+    );
+  }
+
+  List<Widget> _tabContentList() {
+    final streams = [
+      bloc.total,
+      bloc.today,
+      bloc.yesterday,
+    ];
+    return streams
+        .map((item) => _tabContentView(
+              stream: item,
+            ))
+        .toList();
+  }
+
+  Widget _tabContentView({@required Stream<DateItemModel> stream}) {
+    return Padding(
+      padding: _paddingTbv,
+      child: StreamBuilder(
+        stream: stream,
+        builder: (context, AsyncSnapshot<DateItemModel> snapshot) {
+          if (snapshot.hasData) {
+            return StatContent(
+              affected: snapshot.data.cases,
+              deaths: snapshot.data.deaths,
+              recovered: snapshot.data.recovered,
+            );
+          } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+          return _progressCircle();
+        },
       ),
     );
   }

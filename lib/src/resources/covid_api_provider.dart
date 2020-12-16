@@ -3,9 +3,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' show Client;
 
-import '../models/country_item_model.dart';
-import '../models/date_item_model.dart';
-import '../models/timeline_item_model.dart';
+import 'package:zero_to_hero/src/models/country_item_model.dart';
+import 'package:zero_to_hero/src/models/date_item_model.dart';
 
 class CovidApiProvider {
   Client client = Client();
@@ -25,19 +24,19 @@ class CovidApiProvider {
     }
   }
 
-  Future<TimelineItemModel> fetchTimeline() async {
-    print("Time");
-    final response = await client.get("https://covid19-api.org/api/timeline");
-    // print(response.body.toString());
-    print("/Time");
-    if (response.statusCode == 200) {
-      // If the call to the server was successful, parse the JSON
-      return TimelineItemModel.fromJson(json.decode(response.body));
-    } else {
-      // If that call was not successful, throw an error.
-      throw Exception('Failed to load post');
-    }
-  }
+  // Future<TimelineItemModel> fetchTimeline() async {
+  //   print("Time");
+  //   final response = await client.get("https://covid19-api.org/api/timeline");
+  //   // print(response.body.toString());
+  //   print("/Time");
+  //   if (response.statusCode == 200) {
+  //     // If the call to the server was successful, parse the JSON
+  //     return TimelineItemModel.fromJson(json.decode(response.body));
+  //   } else {
+  //     // If that call was not successful, throw an error.
+  //     throw Exception('Failed to load post');
+  //   }
+  // }
 
   Future<DateItemModel> fetchToday() async {
     DateTime date = DateTime.now();
@@ -72,4 +71,6 @@ class CovidApiProvider {
       throw Exception('Failed to load post');
     }
   }
+
+  Future<DateItemModel> fetchTotal() async {}
 }
