@@ -89,7 +89,9 @@ class _StatsPageState extends State<GlobalStatsPage> {
                   padding: EdgeInsets.all(
                     Dimens.INSET_M,
                   ),
-                  child: StatChart(),
+                  child: StatChart(
+                    stream: bloc.timeline,
+                  ),
                 ),
               ),
             ),

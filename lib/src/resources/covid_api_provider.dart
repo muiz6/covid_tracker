@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' show Client;
+import 'package:zero_to_hero/src/models/timeline_item_model.dart';
 import 'package:zero_to_hero/src/models/country_item_model.dart';
 import 'package:zero_to_hero/src/models/date_item_model.dart';
 
@@ -31,6 +32,20 @@ class CovidApiProvider {
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
       return DateItemModel.fromJson(json.decode(response.body)[0]);
+    }
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load post');
+  }
+
+  Future<List<TimelineItemModel>> fetchTimeline() async {
+    final response = await client.get('$_API_ROOT/timeline');
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      final List<dynamic> timeline = json.decode(response.body);
+      return timeline
+          .sublist(0, 7)
+          .map((json) => TimelineItemModel.fromJson(json))
+          .toList();
     }
     // If that call was not successful, throw an error.
     throw Exception('Failed to load post');

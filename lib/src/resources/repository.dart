@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:zero_to_hero/src/models/country_item_model.dart';
 import 'package:zero_to_hero/src/models/date_item_model.dart';
+import 'package:zero_to_hero/src/models/timeline_item_model.dart';
 import 'covid_api_provider.dart';
 
 class Repository {
@@ -14,4 +15,7 @@ class Repository {
   Future<DateItemModel> fetchToday() => covidApiProvider.fetchToday();
 
   Future<DateItemModel> fetchYesterday() => covidApiProvider.fetchYesterday();
+
+  Future<List<TimelineItemModel>> fetchTimeline() =>
+      covidApiProvider.fetchTimeline();
 }

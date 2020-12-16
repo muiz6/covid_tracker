@@ -1,3 +1,4 @@
+import 'package:zero_to_hero/src/models/timeline_item_model.dart';
 import 'package:zero_to_hero/src/resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zero_to_hero/src/models/country_item_model.dart';
@@ -9,6 +10,7 @@ class CovidBloc {
   final _totalFetcher = BehaviorSubject<DateItemModel>();
   final _todayFetcher = BehaviorSubject<DateItemModel>();
   final _yesterdayFetcher = BehaviorSubject<DateItemModel>();
+  final _timelineFetcher = BehaviorSubject<List<TimelineItemModel>>();
 
   CovidBloc() {
     // lazy fetch
@@ -16,12 +18,14 @@ class CovidBloc {
     _todayFetcher.onListen = _fetchToday;
     _yesterdayFetcher.onListen = _fetchYesterday;
     _countryFetcher.onListen = _fetchCountry;
+    _timelineFetcher.onListen = _fetchTimeline;
   }
 
   Stream<CountryItemModel> get country => _countryFetcher.stream;
   Stream<DateItemModel> get today => _todayFetcher.stream;
   Stream<DateItemModel> get yesterday => _yesterdayFetcher.stream;
   Stream<DateItemModel> get total => _totalFetcher.stream;
+  Stream<List<TimelineItemModel>> get timeline => _timelineFetcher.stream;
 
   void _fetchCountry() async {
     CountryItemModel countryItemModel = await _repository.fetchCountry();
@@ -43,11 +47,17 @@ class CovidBloc {
     _yesterdayFetcher.add(dateItemModel);
   }
 
+  void _fetchTimeline() async {
+    final timeline = await _repository.fetchTimeline();
+    _timelineFetcher.add(timeline);
+  }
+
   dispose() {
     _countryFetcher.close();
     _totalFetcher.close();
     _todayFetcher.close();
     _yesterdayFetcher.close();
+    _timelineFetcher.close();
   }
 }
 
