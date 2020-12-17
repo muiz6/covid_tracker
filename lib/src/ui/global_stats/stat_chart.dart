@@ -1,12 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:zero_to_hero/src/models/timeline_item_model.dart';
 import 'package:zero_to_hero/src/ui/dimens.dart';
 import 'package:zero_to_hero/src/ui/my_colors.dart';
 import 'package:zero_to_hero/src/ui/strings.dart';
 
 class StatChart extends StatelessWidget {
-  final List<BarChartGroupData> _data = _getExampleData();
   final Stream<List<TimelineItemModel>> _stream;
 
   StatChart({@required Stream<List<TimelineItemModel>> stream})
@@ -32,16 +32,27 @@ class StatChart extends StatelessWidget {
                 // chart needs to be inside a sized container to prevent overflow
                 child: BarChart(
                   BarChartData(
-                      barGroups: _toBarChartData(snapshot.data),
-                      borderData: FlBorderData(
-                        show: false,
+                    barGroups: _toBarChartData(snapshot.data),
+                    borderData: FlBorderData(
+                      show: false,
+                    ),
+                    titlesData: FlTitlesData(
+                      leftTitles: SideTitles(
+                        showTitles: true,
+                        interval: _calculateInterval(5, snapshot.data),
+                        reservedSize: Dimens.INSET_M,
                       ),
-                      titlesData: FlTitlesData(
-                        leftTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: Dimens.INSET_M,
-                        ),
-                      )),
+                      bottomTitles: SideTitles(
+                        showTitles: true,
+                        getTitles: (value) {
+                          final date = DateTime.fromMillisecondsSinceEpoch(
+                              value.toInt());
+                          final formatter = DateFormat('MMM-dd');
+                          return formatter.format(date);
+                        },
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -62,7 +73,7 @@ class StatChart extends StatelessWidget {
       List<TimelineItemModel> timeline) {
     return timeline.map((model) {
       return BarChartGroupData(
-        x: 0,
+        x: model.date.millisecondsSinceEpoch,
         barRods: [
           BarChartRodData(
             y: model.cases.toDouble(),
@@ -75,21 +86,13 @@ class StatChart extends StatelessWidget {
     }).toList();
   }
 
-  static List<BarChartGroupData> _getExampleData() {
-    final List<BarChartGroupData> data = List();
-    for (int i = 1; i <= 7; i++) {
-      data.add(BarChartGroupData(
-        x: i,
-        barRods: [
-          BarChartRodData(
-            y: i * 1000.0,
-            colors: [
-              MyColors.RED,
-            ],
-          ),
-        ],
-      ));
-    }
-    return data;
+  static double _calculateInterval(
+      int segments, List<TimelineItemModel> timeline) {
+    final int maxCases = timeline.reduce((val1, val2) {
+      return val1.cases > val2.cases ? val1 : val2;
+    }).cases;
+    final interval = maxCases / segments;
+    // round off to millionth
+    return interval - interval % 1000000;
   }
 }

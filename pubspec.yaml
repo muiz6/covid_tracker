@@ -19,6 +19,7 @@ dependencies:
   rxdart: ^0.24.1
   http: ^0.12.2
   fl_chart: ^0.12.1
+  intl: ^0.16.1
 
 
 dev_dependencies:
