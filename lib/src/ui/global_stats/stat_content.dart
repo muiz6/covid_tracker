@@ -1,7 +1,7 @@
-import '../dimens.dart';
-import '../global_stats/stat_tile.dart';
-import '../my_colors.dart';
-import '../strings.dart';
+import 'package:zero_to_hero/src/ui/dimens.dart';
+import 'package:zero_to_hero/src/ui/global_stats/stat_tile.dart';
+import 'package:zero_to_hero/src/ui/my_colors.dart';
+import 'package:zero_to_hero/src/ui/strings.dart';
 import 'package:flutter/material.dart';
 
 class StatContent extends StatelessWidget {
@@ -38,10 +38,8 @@ class StatContent extends StatelessWidget {
                 ),
               ),
               // Using sized box for easier padding
-              SizedBox.fromSize(
-                size: Size.fromWidth(
-                  Dimens.INSET_S,
-                ),
+              SizedBox(
+                width: Dimens.INSET_S,
               ),
               Expanded(
                 child: StatTile(
@@ -53,10 +51,8 @@ class StatContent extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox.fromSize(
-          size: Size.fromHeight(
-            Dimens.INSET_S,
-          ),
+        SizedBox(
+          height: Dimens.INSET_S,
         ),
         Expanded(
           child: Row(
@@ -68,10 +64,8 @@ class StatContent extends StatelessWidget {
                   color: _colors[2],
                 ),
               ),
-              SizedBox.fromSize(
-                size: Size.fromWidth(
-                  Dimens.INSET_S,
-                ),
+              SizedBox(
+                width: Dimens.INSET_S,
               ),
               Expanded(
                 child: StatTile(
@@ -80,17 +74,6 @@ class StatContent extends StatelessWidget {
                   color: _colors[3],
                 ),
               ),
-              SizedBox.fromSize(
-                size: Size.fromWidth(
-                  Dimens.INSET_S,
-                ),
-              ),
-              // Expanded(
-              //   child: StatTile(
-              //     title: Strings.SERIOUS,
-              //     color: _colors[4],
-              //   ),
-              // )
             ],
           ),
         ),

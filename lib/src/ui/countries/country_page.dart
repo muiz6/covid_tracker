@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:zero_to_hero/src/ui/countries/countries.dart';
 
-import '../../blocs/covid_bloc.dart';
-import '../../models/country_item_model.dart';
-import '../clear_app_bar.dart';
-import '../dimens.dart';
-import '../global_stats/plain_scroll_behavior.dart';
-import '../strings.dart';
+import 'package:zero_to_hero/src/blocs/covid_bloc.dart';
+import 'package:zero_to_hero/src/models/country_item_model.dart';
+import 'package:zero_to_hero/src/ui/clear_app_bar.dart';
+import 'package:zero_to_hero/src/ui/dimens.dart';
+import 'package:zero_to_hero/src/ui/global_stats/plain_scroll_behavior.dart';
+import 'package:zero_to_hero/src/ui/strings.dart';
 import 'country_list_tile.dart';
 import 'search_bar.dart';
 
 class CountryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    bloc.fetchCountry();
     return Scaffold(
       body: Column(
         children: [

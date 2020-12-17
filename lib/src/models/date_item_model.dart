@@ -1,22 +1,18 @@
 class DateItemModel {
-  int _cases;
-  int _deaths;
-  int _recovered;
+  final int _cases;
+  final int _deaths;
+  final int _recovered;
 
-  DateItemModel.fromJson(List<dynamic> parsedJson) {
-    // print(parsedJson.length);
-    int cases = 0;
-    int deaths = 0;
-    int recovered = 0;
-    for (int i = 0; i < parsedJson.length; i++) {
-      cases += parsedJson[i]["cases"];
-      deaths += parsedJson[i]["deaths"];
-      recovered += parsedJson[i]["recovered"];
-    }
-    _cases = cases;
-    _deaths = deaths;
-    _recovered = recovered;
-  }
+  DateItemModel({int cases, int deaths, int recovered})
+      : _cases = cases,
+        _deaths = deaths,
+        _recovered = recovered;
+
+  DateItemModel.fromJson(Map<String, dynamic> json)
+      : _cases = json['total_cases'],
+        _deaths = json['total_deaths'],
+        _recovered = json['total_recovered'];
+
   int get cases => _cases;
   int get deaths => _deaths;
   int get recovered => _recovered;
