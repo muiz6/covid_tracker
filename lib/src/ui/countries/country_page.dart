@@ -77,7 +77,7 @@ class CountryPage extends StatelessWidget {
                     ? kCountries[snapshot.data.results[index].country]
                     : snapshot.data.results[index].country;
             if (name.length < 3)
-              print(name + " " + snapshot.data.results[index].cases);
+              print(name + " ${snapshot.data.results[index].cases}");
             return CountryListTile(
               country: name.length > 20 ? name.substring(0, 18) + ".." : name,
               severity: Severity.values[severity],
