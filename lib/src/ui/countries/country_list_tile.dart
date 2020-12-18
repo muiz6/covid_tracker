@@ -12,12 +12,12 @@ class CountryListTile extends StatelessWidget {
   ];
   final String country;
   final Severity severity;
-  final String cases;
+  final int cases;
 
   CountryListTile({
     this.country = '',
     this.severity = Severity.low,
-    this.cases = '0',
+    this.cases = 0,
   });
 
   @override
@@ -61,7 +61,7 @@ class CountryListTile extends StatelessWidget {
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       Text(
-                        cases.toString() + ' ' + Strings.CASES,
+                        _getValue(cases) + ' ' + Strings.CASES,
                       ),
                     ],
                   ),
@@ -77,6 +77,29 @@ class CountryListTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _reverse(String value) {
+    int l = value.length;
+    String temp = "";
+    for (int i = l - 1; i >= 0; i--) temp += value[i];
+    return temp;
+  }
+
+  String _getValue(int value) {
+    print(value);
+    String valueString = _reverse(value.toString());
+    String strValue = value.toString();
+    int l = strValue.length;
+    if (l > 3) {
+      strValue = valueString.substring(0, 3);
+      for (int i = 3; i < l; i += 1) {
+        if (i % 2 != 0) strValue += ",";
+        strValue += valueString[i];
+      }
+      return _reverse(strValue);
+    }
+    return strValue;
   }
 }
 

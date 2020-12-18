@@ -18,22 +18,22 @@ class _Result {
   String _country;
 // ignore: non_constant_identifier_names
   String _last_update;
-  String _cases;
-  String _deaths;
-  String _recovered;
+  int _cases;
+  int _deaths;
+  int _recovered;
 
   _Result(result) {
     _country = result['country'];
     _last_update = result['last_update'];
-    _cases = result['cases'].toString();
-    _deaths = result['deaths'].toString();
-    _recovered = result['recovered'].toString();
+    _cases = result['cases'];
+    _deaths = result['deaths'];
+    _recovered = result['recovered'];
   }
 
   String get country => _country;
 // ignore: non_constant_identifier_names
   String get last_update => _last_update;
-  String get cases => _cases;
-  String get deaths => _deaths;
-  String get recovered => _recovered;
+  int get cases => _cases;
+  int get deaths => _deaths;
+  int get recovered => _recovered;
 }

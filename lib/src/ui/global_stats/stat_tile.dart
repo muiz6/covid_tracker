@@ -28,7 +28,7 @@ class StatTile extends StatelessWidget {
                   ),
             ),
             Text(
-              value.toString(),
+              _getValue(value),
               style: Theme.of(context).textTheme.headline5.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -42,5 +42,28 @@ class StatTile extends StatelessWidget {
         color: color,
       ),
     );
+  }
+
+  String _reverse(String value) {
+    int l = value.length;
+    String temp = "";
+    for (int i = l - 1; i >= 0; i--) temp += value[i];
+    return temp;
+  }
+
+  String _getValue(int value) {
+    print(value);
+    String valueString = _reverse(value.toString());
+    String strValue = value.toString();
+    int l = strValue.length;
+    if (l > 3) {
+      strValue = valueString.substring(0, 3);
+      for (int i = 3; i < l; i += 1) {
+        if (i % 2 != 0) strValue += ",";
+        strValue += valueString[i];
+      }
+      return _reverse(strValue);
+    }
+    return strValue;
   }
 }

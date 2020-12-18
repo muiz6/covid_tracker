@@ -14,10 +14,25 @@ class StatChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double interval;
+    double minValue;
+    double maxValue;
     return StreamBuilder<List<TimelineItemModel>>(
       stream: _stream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          double temp =
+              (_maxCases(snapshot.data) - _minCases(snapshot.data)) / 47;
+          interval = 10;
+          while (temp >= 1) {
+            temp /= 10;
+            interval *= 10;
+          }
+          minValue = (_minCases(snapshot.data) / interval).floor() * interval;
+          maxValue = (_maxCases(snapshot.data) / interval).ceil() * interval;
+          print("interval: $interval");
+          print("minValue: $minValue");
+          print("maxValue: $maxValue");
           return Column(
             children: [
               Text(
@@ -27,29 +42,35 @@ class StatChart extends StatelessWidget {
               SizedBox(
                 height: Dimens.INSET_S,
               ),
-              AspectRatio(
-                aspectRatio: 1.5,
-                // chart needs to be inside a sized container to prevent overflow
-                child: BarChart(
-                  BarChartData(
-                    barGroups: _toBarChartData(snapshot.data),
-                    borderData: FlBorderData(
-                      show: false,
-                    ),
-                    titlesData: FlTitlesData(
-                      leftTitles: SideTitles(
-                        showTitles: true,
-                        interval: _calculateInterval(5, snapshot.data),
-                        reservedSize: Dimens.INSET_M,
+              Expanded(
+                child: AspectRatio(
+                  aspectRatio: 1.5,
+                  // chart needs to be inside a sized container to prevent overflow
+                  child: BarChart(
+                    BarChartData(
+                      barGroups: _toBarChartData(snapshot.data),
+                      minY:
+                          minValue, //interval can be subtracted as a margin for minimum value
+                      maxY:
+                          maxValue, //interval can be added as a margin for maximum value
+                      borderData: FlBorderData(
+                        show: false,
                       ),
-                      bottomTitles: SideTitles(
-                        showTitles: true,
-                        getTitles: (value) {
-                          final date = DateTime.fromMillisecondsSinceEpoch(
-                              value.toInt());
-                          final formatter = DateFormat('MMM-dd');
-                          return formatter.format(date);
-                        },
+                      titlesData: FlTitlesData(
+                        leftTitles: SideTitles(
+                          showTitles: true,
+                          interval: interval,
+                          reservedSize: Dimens.INSET_M,
+                        ),
+                        bottomTitles: SideTitles(
+                          showTitles: true,
+                          getTitles: (value) {
+                            final date = DateTime.fromMillisecondsSinceEpoch(
+                                value.toInt());
+                            final formatter = DateFormat('MMM-dd');
+                            return formatter.format(date);
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -86,13 +107,15 @@ class StatChart extends StatelessWidget {
     }).toList();
   }
 
-  static double _calculateInterval(
-      int segments, List<TimelineItemModel> timeline) {
-    final int maxCases = timeline.reduce((val1, val2) {
+  int _maxCases(List<TimelineItemModel> timeline) {
+    return timeline.reduce((val1, val2) {
       return val1.cases > val2.cases ? val1 : val2;
     }).cases;
-    final interval = maxCases / segments;
-    // round off to millionth
-    return interval - interval % 1000000;
+  }
+
+  int _minCases(List<TimelineItemModel> timeline) {
+    return timeline.reduce((val1, val2) {
+      return val1.cases < val2.cases ? val1 : val2;
+    }).cases;
   }
 }
