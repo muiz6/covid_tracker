@@ -13,12 +13,12 @@ class CovidBloc {
   final _timelineFetcher = BehaviorSubject<List<TimelineItemModel>>();
 
   CovidBloc() {
-    // lazy fetch
-    _totalFetcher.onListen = _fetchTotal;
-    _todayFetcher.onListen = _fetchToday;
-    _yesterdayFetcher.onListen = _fetchYesterday;
-    _countryFetcher.onListen = _fetchCountry;
-    _timelineFetcher.onListen = _fetchTimeline;
+    // fetch once
+    _fetchTotal();
+    _fetchToday();
+    _fetchYesterday();
+    _fetchCountry();
+    _fetchTimeline();
   }
 
   Stream<CountryItemModel> get country => _countryFetcher.stream;

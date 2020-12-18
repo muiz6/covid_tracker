@@ -38,17 +38,11 @@ class CovidApiProvider {
   }
 
   Future<List<TimelineItemModel>> fetchTimeline() async {
-    final response = await client.get('$_API_ROOT/timeline');
-    if (response.statusCode == 200) {
-      // If the call to the server was successful, parse the JSON
-      final List<dynamic> timeline = json.decode(response.body);
-      return timeline
-          .sublist(0, 7)
-          .map((json) => TimelineItemModel.fromJson(json))
-          .toList();
-    }
-    // If that call was not successful, throw an error.
-    throw Exception('Failed to load post');
+    final int length = 7;
+    final offsetList = List.generate(length, (i) => length - i);
+    return Future.wait(offsetList.map((i) => _fetchSingleDayTimelineData(
+          offset: i,
+        )));
   }
 
   Future<DateItemModel> _fetchSingleDayData({int offset = 0}) async {
@@ -64,6 +58,25 @@ class CovidApiProvider {
         cases: todayTotal.cases - ystTotal.cases,
         deaths: todayTotal.deaths - ystTotal.deaths,
         recovered: todayTotal.recovered - ystTotal.recovered,
+      );
+    }
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load post');
+  }
+
+  Future<TimelineItemModel> _fetchSingleDayTimelineData(
+      {int offset = 0}) async {
+    final response = await client.get('$_API_ROOT/timeline');
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      final todayTotal =
+          TimelineItemModel.fromJson(json.decode(response.body)[offset]);
+      final ystTotal =
+          TimelineItemModel.fromJson(json.decode(response.body)[offset + 1]);
+      // just single day
+      return TimelineItemModel(
+        cases: todayTotal.cases - ystTotal.cases,
+        date: todayTotal.date,
       );
     }
     // If that call was not successful, throw an error.
