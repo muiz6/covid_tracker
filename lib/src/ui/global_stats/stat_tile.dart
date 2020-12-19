@@ -52,7 +52,7 @@ class StatTile extends StatelessWidget {
   }
 
   String _getValue(int value) {
-    print(value);
+    // print(value);
     String valueString = _reverse(value.toString());
     String strValue = value.toString();
     int l = strValue.length;

@@ -30,9 +30,9 @@ class StatChart extends StatelessWidget {
           }
           minValue = (_minCases(snapshot.data) / interval).floor() * interval;
           maxValue = (_maxCases(snapshot.data) / interval).ceil() * interval;
-          print("interval: $interval");
-          print("minValue: $minValue");
-          print("maxValue: $maxValue");
+          // print("interval: $interval");
+          // print("minValue: $minValue");
+          // print("maxValue: $maxValue");
           return Column(
             children: [
               Text(
