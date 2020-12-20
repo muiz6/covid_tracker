@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:zero_to_hero/src/models/country_item_model.dart';
+import 'package:zero_to_hero/src/models/countries_item_model.dart';
 import 'package:zero_to_hero/src/models/date_item_model.dart';
 import 'package:zero_to_hero/src/models/timeline_item_model.dart';
 import 'covid_api_provider.dart';
@@ -8,7 +8,7 @@ import 'covid_api_provider.dart';
 class Repository {
   final covidApiProvider = CovidApiProvider();
 
-  Future<CountryItemModel> fetchCountry() => covidApiProvider.fetchCountry();
+  Future<CountriesItemModel> fetchCountry() => covidApiProvider.fetchCountry();
 
   Future<DateItemModel> fetchTotal() => covidApiProvider.fetchTotal();
 

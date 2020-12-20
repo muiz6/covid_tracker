@@ -2,18 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' show Client;
 import 'package:zero_to_hero/src/models/timeline_item_model.dart';
-import 'package:zero_to_hero/src/models/country_item_model.dart';
+import 'package:zero_to_hero/src/models/countries_item_model.dart';
 import 'package:zero_to_hero/src/models/date_item_model.dart';
 
 class CovidApiProvider {
   static const _API_ROOT = 'https://covid19-api.org/api';
   final Client client = Client();
 
-  Future<CountryItemModel> fetchCountry() async {
+  Future<CountriesItemModel> fetchCountry() async {
     final response = await client.get('$_API_ROOT/status');
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
-      return CountryItemModel.fromJson(json.decode(response.body));
+      return CountriesItemModel.fromJson(json.decode(response.body));
     } else {
       // If that call was not successful, throw an error.
       throw Exception('Failed to load post');

@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
 import '../about_page.dart';
 import '../countries/country_page.dart';
 import '../global_stats/global_stats_page.dart';
 import '../home/blue_tab_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 /// Screen containing bottom appbar
 class HomePage extends StatelessWidget {

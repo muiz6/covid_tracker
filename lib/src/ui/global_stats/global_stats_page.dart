@@ -32,6 +32,13 @@ class _StatsPageState extends State<GlobalStatsPage> {
   ];
   final EdgeInsets _paddingTbv = EdgeInsets.all(Dimens.INSET_M);
 
+  CovidBloc covidBloc;
+  @override
+  void initState() {
+    covidBloc = CovidBloc();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -90,7 +97,7 @@ class _StatsPageState extends State<GlobalStatsPage> {
                     Dimens.INSET_M,
                   ),
                   child: StatChart(
-                    stream: bloc.timeline,
+                    stream: covidBloc.timeline,
                   ),
                 ),
               ),
@@ -101,21 +108,11 @@ class _StatsPageState extends State<GlobalStatsPage> {
     );
   }
 
-  Widget _progressCircle() {
-    return Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(
-          Colors.white,
-        ),
-      ),
-    );
-  }
-
   List<Widget> _tabContentList() {
     final streams = [
-      bloc.total,
-      bloc.today,
-      bloc.yesterday,
+      covidBloc.total,
+      covidBloc.today,
+      covidBloc.yesterday,
     ];
     return streams
         .map((item) => _tabContentView(
@@ -141,6 +138,16 @@ class _StatsPageState extends State<GlobalStatsPage> {
           }
           return _progressCircle();
         },
+      ),
+    );
+  }
+
+  Widget _progressCircle() {
+    return Center(
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(
+          Colors.white,
+        ),
       ),
     );
   }
