@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:zero_to_hero/src/blocs/covid_bloc.dart';
 import 'package:zero_to_hero/src/models/date_item_model.dart';
 import 'package:zero_to_hero/src/ui/clear_app_bar.dart';
 import 'package:zero_to_hero/src/ui/dimens.dart';
 import 'package:zero_to_hero/src/ui/global_stats/curved_tab_bar.dart';
-import 'package:zero_to_hero/src/ui/global_stats/plain_scroll_behavior.dart';
+import 'package:zero_to_hero/src/ui/plain_scroll_behavior.dart';
 import 'package:zero_to_hero/src/ui/global_stats/stat_chart.dart';
 import 'package:zero_to_hero/src/ui/global_stats/stat_content.dart';
 import 'package:zero_to_hero/src/ui/strings.dart';
-import 'plain_scroll_behavior.dart';
+import '../plain_scroll_behavior.dart';
 
 class GlobalStatsPage extends StatefulWidget {
+  final CovidBloc covidBloc;
+
+  GlobalStatsPage({@required BuildContext context})
+      : covidBloc = Provider.of<CovidBloc>(context, listen: false);
+
   @override
   _StatsPageState createState() => _StatsPageState();
 }
@@ -31,11 +37,11 @@ class _StatsPageState extends State<GlobalStatsPage> {
     ),
   ];
   final EdgeInsets _paddingTbv = EdgeInsets.all(Dimens.INSET_M);
-
   CovidBloc covidBloc;
+
   @override
   void initState() {
-    covidBloc = CovidBloc();
+    covidBloc = widget.covidBloc;
     super.initState();
   }
 

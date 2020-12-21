@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../dimens.dart';
-import '../my_colors.dart';
-import '../strings.dart';
+import 'package:zero_to_hero/src/ui/dimens.dart';
+import 'package:zero_to_hero/src/ui/my_colors.dart';
+import 'package:zero_to_hero/src/ui/strings.dart';
 
 class CountryListTile extends StatelessWidget {
   final List<Color> _colors = [
@@ -22,58 +21,54 @@ class CountryListTile extends StatelessWidget {
 
   @override
   Widget build(Object context) {
-    return Padding(
-      padding: EdgeInsets.all(
-        Dimens.INSET_S,
-      ),
-      child: Container(
-        height: 80,
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 1,
-            color: MyColors.ON_BACKGROUND_VARIANT,
-          ),
-          borderRadius: BorderRadius.circular(
-            Dimens.RADIUS_S,
-          ),
+    return Container(
+      height: 80,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 1,
+          color: MyColors.ON_BACKGROUND_VARIANT,
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(
-            Dimens.RADIUS_S,
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 10,
-                color: _colors[severity.index],
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(
-                    Dimens.INSET_S,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        country,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      Text(
-                        _getValue(cases) + ' ' + Strings.CASES,
-                      ),
-                    ],
-                  ),
+        borderRadius: BorderRadius.circular(
+          Dimens.RADIUS_S,
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(
+          Dimens.RADIUS_S,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 10,
+              color: _colors[severity.index],
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(
+                  Dimens.INSET_S,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      country,
+                      style: Theme.of(context).textTheme.headline6,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      '${_getValue(cases)} ${Strings.CASES}',
+                    ),
+                  ],
                 ),
               ),
-              Icon(
-                Icons.keyboard_arrow_right,
-                size: 40,
-                color: MyColors.ON_BACKGROUND_VARIANT,
-              ),
-            ],
-          ),
+            ),
+            Icon(
+              Icons.keyboard_arrow_right,
+              size: 40,
+              color: MyColors.ON_BACKGROUND_VARIANT,
+            ),
+          ],
         ),
       ),
     );

@@ -1,9 +1,10 @@
+import 'package:zero_to_hero/src/blocs/bloc.dart';
 import 'package:zero_to_hero/src/models/timeline_item_model.dart';
 import 'package:zero_to_hero/src/resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zero_to_hero/src/models/date_item_model.dart';
 
-class CovidBloc {
+class CovidBloc implements Bloc {
   final _repository = Repository();
   final _totalFetcher = BehaviorSubject<DateItemModel>();
   final _todayFetcher = BehaviorSubject<DateItemModel>();
